@@ -47,3 +47,17 @@ main {
         justify-content: center;
     }
 }
+
+.pais {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    text-align: center;
+    width: 200px;
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.pais img {
+    border-radius: 5px;
+}
