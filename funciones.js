@@ -17,3 +17,22 @@ async function cargarPaises() {
         console.error("Error al cargar los países:", error);
     }
 }
+
+function mostrarPaises(paises) {
+    const contenedor = document.querySelector("#contenedor-paises");
+    paises.forEach((pais) => {
+        const elementoPais = document.createElement("div");
+        elementoPais.className = "pais";
+        elementoPais.innerHTML = `
+            <img src="${pais.flags.svg}" alt="Bandera de ${pais.name.common}" width="50">
+            <h3>${pais.name.common}</h3>
+            <p>Capital: ${pais.capital ? pais.capital[0] : "N/A"}</p>
+            <p>Población: ${pais.population.toLocaleString()}</p>
+        `;
+        contenedor.appendChild(elementoPais);
+    });
+}
+
+if (document.title === "Lista de Países") {
+    document.addEventListener("DOMContentLoaded", cargarPaises);
+}
