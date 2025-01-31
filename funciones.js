@@ -77,12 +77,18 @@ function mostrarDetallesPais(pais) {
     `;
 
     ventana.style.display = "flex";
+    setTimeout(() => {
+        ventana.classList.add("mostrar");
+    }, 10);
 
     document.querySelector("#cerrar-ventana").addEventListener("click", () => {
-        ventana.style.display = "none";
+        ventana.classList.remove("mostrar");
+        setTimeout(() => {
+            ventana.style.display = "none";
+        }, 300);
     });
 }
 
-if (document.title === "Lista de Países" || document.title === "Filtrar por Región") {
+if (document.title.includes("Lista de Países") || document.title.includes("Región")) {
     document.addEventListener("DOMContentLoaded", obtenerPaises);
 }
