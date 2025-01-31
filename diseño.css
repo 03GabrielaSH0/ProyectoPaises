@@ -41,6 +41,23 @@ main {
     margin-top: 50px;
 }
 
+main p {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 16px;
+}
+
+#descripcion {
+    font-size: 18px;
+    color: #666;
+}
+
+#proyecto {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+}
+
 #buscador {
     border: 1px solid #ccc;
     border-radius: 5px;
