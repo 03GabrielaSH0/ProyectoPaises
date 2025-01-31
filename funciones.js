@@ -13,6 +13,9 @@ async function cargarPaises() {
         }
 
         mostrarPaises(paises);
+
+        const inputBusqueda = document.getElementById("busqueda");
+        inputBusqueda.addEventListener("input", () => filtrarPaises(paises, inputBusqueda.value));
     } catch (error) {
         console.error("Error al cargar los países:", error);
     }
@@ -20,6 +23,7 @@ async function cargarPaises() {
 
 function mostrarPaises(paises) {
     const contenedor = document.querySelector("#contenedor-paises");
+    contenedor.innerHTML = "";
     paises.forEach((pais) => {
         const elementoPais = document.createElement("div");
         elementoPais.className = "pais";
@@ -31,6 +35,13 @@ function mostrarPaises(paises) {
         `;
         contenedor.appendChild(elementoPais);
     });
+}
+
+function filtrarPaises(paises, texto) {
+    const paisesFiltrados = paises.filter((pais) =>
+        pais.name.common.toLowerCase().includes(texto.toLowerCase())
+    );
+    mostrarPaises(paisesFiltrados);
 }
 
 if (document.title === "Lista de Países") {
