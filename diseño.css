@@ -91,6 +91,13 @@ main {
     background: rgba(0, 0, 0, 0.7);
     justify-content: center;
     align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+#ventana.mostrar {
+    display: flex;
+    opacity: 1;
 }
 
 #contenido-ventana {
