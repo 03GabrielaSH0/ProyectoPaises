@@ -15,14 +15,23 @@ async function obtenerPaises() {
         mostrarListaPaises(listaPaises);
 
         const campoBusqueda = document.getElementById("buscador");
-        campoBusqueda.addEventListener("input", () => filtrarPaises(listaPaises, campoBusqueda.value));
+        if (campoBusqueda) {
+            campoBusqueda.addEventListener("input", () => filtrarPaises(listaPaises, campoBusqueda.value));
+        }
+
+        const selectorRegion = document.getElementById("seleccionar-region");
+        if (selectorRegion) {
+            selectorRegion.addEventListener("change", () => filtrarPorRegion(listaPaises, selectorRegion.value));
+        }
     } catch (error) {
         console.error("Error al obtener los países:", error);
     }
 }
 
 function mostrarListaPaises(listaPaises) {
-    const cajaPaises = document.querySelector("#caja-paises");
+    const cajaPaises = document.querySelector("#caja-paises") || document.querySelector("#caja-regiones");
+    if (!cajaPaises) return;
+
     cajaPaises.innerHTML = "";
     listaPaises.forEach((pais) => {
         const tarjetaPais = document.createElement("div");
@@ -40,6 +49,15 @@ function filtrarPaises(listaPaises, texto) {
     const paisesFiltrados = listaPaises.filter((pais) =>
         pais.name.common.toLowerCase().includes(texto.toLowerCase())
     );
+    mostrarListaPaises(paisesFiltrados);
+}
+
+function filtrarPorRegion(listaPaises, region) {
+    if (!region) {
+        mostrarListaPaises(listaPaises);
+        return;
+    }
+    const paisesFiltrados = listaPaises.filter((pais) => pais.region === region);
     mostrarListaPaises(paisesFiltrados);
 }
 
@@ -65,6 +83,6 @@ function mostrarDetallesPais(pais) {
     });
 }
 
-if (document.title === "Lista de Países") {
+if (document.title === "Lista de Países" || document.title === "Filtrar por Región") {
     document.addEventListener("DOMContentLoaded", obtenerPaises);
 }
