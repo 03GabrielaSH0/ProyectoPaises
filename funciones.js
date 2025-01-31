@@ -1,49 +1,70 @@
-const API_URL = "https://restcountries.com/v3.1/all";
+const URL_API = "https://restcountries.com/v3.1/all";
 
-async function cargarPaises() {
+async function obtenerPaises() {
     try {
-        let paises = localStorage.getItem("paises");
+        let listaPaises = localStorage.getItem("listaPaises");
 
-        if (!paises) {
-            const respuesta = await fetch(API_URL);
-            paises = await respuesta.json();
-            localStorage.setItem("paises", JSON.stringify(paises));
+        if (!listaPaises) {
+            const respuesta = await fetch(URL_API);
+            listaPaises = await respuesta.json();
+            localStorage.setItem("listaPaises", JSON.stringify(listaPaises));
         } else {
-            paises = JSON.parse(paises);
+            listaPaises = JSON.parse(listaPaises);
         }
 
-        mostrarPaises(paises);
+        mostrarListaPaises(listaPaises);
 
-        const inputBusqueda = document.getElementById("busqueda");
-        inputBusqueda.addEventListener("input", () => filtrarPaises(paises, inputBusqueda.value));
+        const campoBusqueda = document.getElementById("buscador");
+        campoBusqueda.addEventListener("input", () => filtrarPaises(listaPaises, campoBusqueda.value));
     } catch (error) {
-        console.error("Error al cargar los países:", error);
+        console.error("Error al obtener los países:", error);
     }
 }
 
-function mostrarPaises(paises) {
-    const contenedor = document.querySelector("#contenedor-paises");
-    contenedor.innerHTML = "";
-    paises.forEach((pais) => {
-        const elementoPais = document.createElement("div");
-        elementoPais.className = "pais";
-        elementoPais.innerHTML = `
-            <img src="${pais.flags.svg}" alt="Bandera de ${pais.name.common}" width="50">
+function mostrarListaPaises(listaPaises) {
+    const cajaPaises = document.querySelector("#caja-paises");
+    cajaPaises.innerHTML = "";
+    listaPaises.forEach((pais) => {
+        const tarjetaPais = document.createElement("div");
+        tarjetaPais.className = "tarjeta";
+        tarjetaPais.innerHTML = `
+            <img src="${pais.flags.svg}" alt="Bandera de ${pais.name.common}" width="100">
             <h3>${pais.name.common}</h3>
-            <p>Capital: ${pais.capital ? pais.capital[0] : "N/A"}</p>
-            <p>Población: ${pais.population.toLocaleString()}</p>
         `;
-        contenedor.appendChild(elementoPais);
+        tarjetaPais.addEventListener("click", () => mostrarDetallesPais(pais));
+        cajaPaises.appendChild(tarjetaPais);
     });
 }
 
-function filtrarPaises(paises, texto) {
-    const paisesFiltrados = paises.filter((pais) =>
+function filtrarPaises(listaPaises, texto) {
+    const paisesFiltrados = listaPaises.filter((pais) =>
         pais.name.common.toLowerCase().includes(texto.toLowerCase())
     );
-    mostrarPaises(paisesFiltrados);
+    mostrarListaPaises(paisesFiltrados);
+}
+
+function mostrarDetallesPais(pais) {
+    const ventana = document.querySelector("#ventana");
+    const contenidoVentana = document.querySelector("#contenido-ventana");
+
+    contenidoVentana.innerHTML = `
+        <span id="cerrar-ventana">&times;</span>
+        <img src="${pais.flags.svg}" alt="Bandera de ${pais.name.common}" width="100">
+        <h2>${pais.name.common}</h2>
+        <p><strong>Capital:</strong> ${pais.capital ? pais.capital[0] : "N/A"}</p>
+        <p><strong>Población:</strong> ${pais.population.toLocaleString()}</p>
+        <p><strong>Región:</strong> ${pais.region}</p>
+        <p><strong>Subregión:</strong> ${pais.subregion || "N/A"}</p>
+        <p><strong>Área:</strong> ${pais.area.toLocaleString()} km²</p>
+    `;
+
+    ventana.style.display = "flex";
+
+    document.querySelector("#cerrar-ventana").addEventListener("click", () => {
+        ventana.style.display = "none";
+    });
 }
 
 if (document.title === "Lista de Países") {
-    document.addEventListener("DOMContentLoaded", cargarPaises);
+    document.addEventListener("DOMContentLoaded", obtenerPaises);
 }
