@@ -37,6 +37,10 @@ nav ul li a:hover {
     background-color: darkblue;
 }
 
+main {
+    margin-top: 50px;
+}
+
 @media (min-width: 768px) {
     nav ul {
         flex-direction: row;
