@@ -1,4 +1,4 @@
-const URL_API = "https://restcountries.com/v3.1/all";
+const URL_API = "https://restcountries.com/v3.1/lang/spanish";
 
 async function obtenerPaises() {
     try {
@@ -37,8 +37,8 @@ function mostrarListaPaises(listaPaises) {
         const tarjetaPais = document.createElement("div");
         tarjetaPais.className = "tarjeta";
         tarjetaPais.innerHTML = `
-            <img src="${pais.flags.svg}" alt="Bandera de ${pais.name.common}" width="100">
-            <h3>${pais.name.common}</h3>
+            <img src="${pais.flags.svg}" alt="Bandera de ${pais.translations.spa.common}" width="100">
+            <h3>${pais.translations.spa.common}</h3>
         `;
         tarjetaPais.addEventListener("click", () => mostrarDetallesPais(pais));
         cajaPaises.appendChild(tarjetaPais);
@@ -47,7 +47,7 @@ function mostrarListaPaises(listaPaises) {
 
 function filtrarPaises(listaPaises, texto) {
     const paisesFiltrados = listaPaises.filter((pais) =>
-        pais.name.common.toLowerCase().includes(texto.toLowerCase())
+        pais.translations.spa.common.toLowerCase().includes(texto.toLowerCase())
     );
     mostrarListaPaises(paisesFiltrados);
 }
@@ -67,8 +67,8 @@ function mostrarDetallesPais(pais) {
 
     contenidoVentana.innerHTML = `
         <span id="cerrar-ventana">&times;</span>
-        <img src="${pais.flags.svg}" alt="Bandera de ${pais.name.common}" width="100">
-        <h2>${pais.name.common}</h2>
+        <img src="${pais.flags.svg}" alt="Bandera de ${pais.translations.spa.common}" width="100">
+        <h2>${pais.translations.spa.common}</h2>
         <p><strong>Capital:</strong> ${pais.capital ? pais.capital[0] : "N/A"}</p>
         <p><strong>Población:</strong> ${pais.population.toLocaleString()}</p>
         <p><strong>Región:</strong> ${pais.region}</p>
